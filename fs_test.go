@@ -22,7 +22,7 @@ func TestS3Fs(t *testing.T) {
 		t.Error(err)
 	}
 
-	f, err := s3fs.Open("test.txt")
+	f, err := s3fs.Open("newfolder/test.txt")
 	if err != nil {
 		t.Error(err)
 	}

@@ -17,7 +17,10 @@ type S3Fs struct {
 }
 
 func New(bucketId string, client *s3.Client) (*S3Fs, error) {
-	// Should check if the bucket exists!
+	_, err := client.HeadBucket(context.TODO(), &s3.HeadBucketInput{Bucket: aws.String(bucketId)})
+	if err != nil {
+		return nil, err
+	}
 	return &S3Fs{bucketId: bucketId, client: client}, nil
 }
 
