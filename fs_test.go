@@ -3,7 +3,9 @@ package s3fs
 import (
 	"context"
 	"errors"
+	"fmt"
 	"io"
+	"strings"
 	"testing"
 
 	"github.com/aws/aws-sdk-go-v2/config"
@@ -34,5 +36,13 @@ func TestS3Fs(t *testing.T) {
 	s := string(txt)
 	if s != "hello world\n" {
 		t.Error(errors.New("s3fs test: document does not match"))
+	}
+	for i := 0; i < 10; i++ {
+		n := fmt.Sprintf("files/%d", i)
+		s3fs.CreateFrom(n, strings.NewReader("This is a test"))
+	}
+	err = s3fs.RemoveAll("files/")
+	if err != nil {
+		t.Error(err)
 	}
 }
